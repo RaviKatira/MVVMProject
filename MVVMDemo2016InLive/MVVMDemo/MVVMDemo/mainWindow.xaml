@@ -1,0 +1,35 @@
+﻿<Window x:Class="OPSMain.mainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        
+
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:OPSMain"
+        mc:Ignorable="d"
+        Title="Shree Dashama Stores - OPS System" Closing="Window_Closing">
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="Billing">
+                <MenuItem Name="mnuOrderEntryScreen"  Header="_Order Entry" Click="mnuOrderEntryScreen_Click"/>
+                <MenuItem Name="mnuRePrintBill"  Header="_Reprint Bill" Click="mnuRePrintBill_Click"/>
+                <Separator />
+                <MenuItem Header="_Exit" Click="MenuExitItem_Click"/>
+            </MenuItem>
+            <MenuItem Header="Master">
+                <MenuItem Name="mnuProductMaster"  Header="_Product Master" Click="mnuProductMaster_Click"/>
+                <MenuItem Name="mnuCustomerMaster"  Header="_Customer Master" Click="mnuCustomerMaster_Click"/>
+                <MenuItem Name="mnuSupplierMaster"  Header="_Supplier Master" Click="mnuSupplierMaster_Click" />
+            </MenuItem>
+            <MenuItem Header="Inward">
+                <MenuItem Name="mnuInWardEntry"  Header="Inward Entry" Click="mnuInWardEntry_Click"/>
+                
+            </MenuItem>
+            <MenuItem Header="Email">
+                <MenuItem Name="mnuEmailDailyReport"  Header="_Email Daily Report" Click="mnuEmailDailyReport_Click"/>
+            </MenuItem>
+        </Menu>
+        <TextBox AcceptsReturn="True" />
+        </DockPanel>
+
+</Window>

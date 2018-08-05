@@ -1,0 +1,22 @@
+"Desc                                                    Qty@Price     Total"
+"Pat Honey 500gm                                             1@135       135"
+
+"Desc                                                    Qty@Price     Total"
+"Saundarya Face Wash 60ml                                     1@50        50"
+"Saundarya Face Wash 60ml                                     
+"Product Name                                            Qty@Price     Total"
+"Wheet Grass Powder                                          1@350       350"
+
+"Product Name                                Qty@Price     Total"
+"Wheet Grass Powder                        1@350       350"
+"Honey 500gm                                      1@135       135"
+"Atta Noodles                                     1@15        15"
+
+
+
+"Product Name                                Qty@Price     Total"
+"Honey 500gm                                      1@135       135"
+"Kesh Kanti Hair Cleaner               2@70       140"
+"Wheet Grass Powder                        1@350       350"
+"Amla Hair Oil                                   1@40        40"
+"Atta Noodles                                     1@15        15"

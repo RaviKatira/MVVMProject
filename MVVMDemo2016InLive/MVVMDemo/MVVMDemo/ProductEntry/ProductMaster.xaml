@@ -1,0 +1,297 @@
+﻿<Window x:Class="OPSMain.ProductEntry.ProductMaster"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:OPSMain.ProductEntry"
+        mc:Ignorable="d"
+        xmlns:control="clr-namespace:MultiSelectComboBox;assembly=MultiSelectComboBox"
+        xmlns:viewmodel="clr-namespace:OPSMain.ProductEntry"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+         Title="Product Master" Height="700" Width="1000" Closing="Window_Closing"
+        WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <viewmodel:ProductViewModel x:Key="ViewModel"/>
+
+        <Style TargetType="ListViewItem">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid DataContext="{Binding Source={StaticResource ViewModel}}" Margin="0,-2,0,30" ShowGridLines="False">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+
+
+                <RowDefinition Height="400"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Column="0" Grid.Row="1" Content="Supplier" HorizontalAlignment="left" 
+                FontWeight="Bold" Margin="0,0,0,0"/>
+            <ComboBox  Grid.Row="1" Grid.Column="1"  
+                  ItemsSource="{Binding Suppliers}" 
+                  DisplayMemberPath="SupplierName" 
+                  SelectedValuePath="SupplierId" 
+                  SelectedItem="{Binding SelectedSupplier}"
+                  HorizontalAlignment="Left" Margin="0,0,0,0"  VerticalAlignment="Top" Width="200" Grid.ColumnSpan="2"/>
+
+            <Label Grid.Row="1" Grid.Column="3" Content="Bar Code No" HorizontalAlignment="left" 
+                   FontWeight="Bold" Margin="20,0,0,0"/>
+            <TextBox Name="txtBarCodeId" 
+                     Grid.Row="1" Grid.Column="4" Width="138" HorizontalAlignment="left" Text="{Binding SelectedProduct.BarCodeId, Mode=TwoWay}" Grid.ColumnSpan="2" Margin="20,0,0,0" >
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="LostFocus">
+                        <i:InvokeCommandAction Command="{Binding SearchBarCodeCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </TextBox>
+
+            <Label Grid.Row="2" Grid.Column="0" Content="Product" HorizontalAlignment="left" Margin="0,0,0,0" FontWeight="Bold" VerticalAlignment="Top"/>
+            <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="4" Width="500" HorizontalAlignment="left" Text="{Binding SelectedProduct.ProductName, Mode=TwoWay}" Margin="0,0,0,0" />
+
+            <Label Grid.Row="2" Grid.Column="6" Content="Offer" HorizontalAlignment="left" FontWeight="Bold"/>
+            <ComboBox Grid.Row="2" Grid.Column="7"  
+                  ItemsSource="{Binding ProductOffer}" 
+                  DisplayMemberPath="OfferOption" 
+                  SelectedValuePath="OfferId" 
+                  SelectedItem="{Binding SelectedProductOffer}"
+                  HorizontalAlignment="Left" Margin="0,0,0,0"  VerticalAlignment="Top" Width="100" Grid.ColumnSpan="3"/>
+
+            <!--<ComboBox Grid.Row="2" Grid.Column="1"  
+                  ItemsSource="{Binding Products}" 
+                  DisplayMemberPath="ProductName" 
+                  SelectedValuePath="ProductId" 
+                  SelectedItem="{Binding Product}"
+                  HorizontalAlignment="Left" Margin="0,0,0,0"  VerticalAlignment="Top" Width="350" Grid.ColumnSpan="3"/>-->
+            <Label Grid.Row="3" Grid.Column="0" Content="MRP" HorizontalAlignment="left" FontWeight="Bold"/>
+            <TextBox Name="txtMRP" Grid.Row="3" Grid.Column="1" Width="100" HorizontalAlignment="left" Text="{Binding SelectedProduct.MRP, Mode=TwoWay}" Margin="2,0,0,0" GotKeyboardFocus="txtMRP_GotKeyboardFocus" GotMouseCapture="txtMRP_GotMouseCapture"/>
+            <Label Grid.Row="3" Grid.Column="2" Content="Selling Price" HorizontalAlignment="left" FontWeight="Bold"/>
+            <TextBox Name="txtSellingPrice" Grid.Row="3" Grid.Column="3" Width="100" HorizontalAlignment="left" Text="{Binding SelectedProduct.ProductPrice, Mode=TwoWay}" Margin="2,0,0,0" GotKeyboardFocus="txtSellingPrice_GotKeyboardFocus" GotMouseCapture="txtSellingPrice_GotMouseCapture"/>
+            <Label Grid.Row="3" Grid.Column="4" Content="Cost Price" HorizontalAlignment="left" FontWeight="Bold"/>
+            <TextBox Name="txtCostPrice" Grid.Row="3" Grid.Column="5" Width="100" HorizontalAlignment="left" Text="{Binding SelectedProduct.ProductCostPrice, Mode=TwoWay}" Margin="2,0,0,0" GotKeyboardFocus="txtCostPrice_GotKeyboardFocus" GotMouseCapture="txtCostPrice_GotMouseCapture"/>
+            <Label Grid.Row="3" Grid.Column="6" Content="VAT Category" HorizontalAlignment="left" FontWeight="Bold"/>
+            <ComboBox Grid.Row="3" Grid.Column="7"  
+                  ItemsSource="{Binding ProductCategory}" 
+                  DisplayMemberPath="CategoryName" 
+                  SelectedValuePath="CategoryId" 
+                  SelectedItem="{Binding SelectedProductCategory}"
+                  HorizontalAlignment="Left" Margin="0,0,0,0"  VerticalAlignment="Top" Width="100" Grid.ColumnSpan="3"/>
+            <Label Grid.Row="1" Grid.Column="6" Content="Active" HorizontalAlignment="left" FontWeight="Bold"/>
+            <ComboBox Grid.Row="1" Grid.Column="7"  
+                  ItemsSource="{Binding ActiveTypes}" 
+                  DisplayMemberPath="ActiveCategory" 
+                  SelectedValuePath="ActiveId" 
+                  SelectedItem="{Binding SelectedActiveType}"
+                  HorizontalAlignment="Left" Margin="0,0,0,0"  VerticalAlignment="Top" Width="100" Grid.ColumnSpan="3"/>
+            <Label Grid.Row="4" Grid.Column="0" Content="Treatment" HorizontalAlignment="left" FontWeight="Bold" Margin="0,0,0,0"/>
+            <ComboBox IsTextSearchEnabled="True" TextSearch.TextPath="TreatmentName" Grid.ColumnSpan="2"
+                Width="200"
+                    Grid.Row="4" Grid.Column="1" 
+                  ItemsSource="{Binding Treatments}" 
+                  SelectedValuePath="TreatmentId" 
+                  SelectedItem="{Binding SelectedTreatment}"
+                  HorizontalAlignment="Left" Margin="0,0,0,0"  VerticalAlignment="Top"  >
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox IsChecked="{Binding IsSelected}" Width="20" />
+                            <TextBlock  Text="{Binding TreatmentName}" Width="180"></TextBlock>
+
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+
+            </ComboBox>
+            <!--<control:MultiSelectComboBox Grid.Row="4" Grid.Column="1" Height="25" 
+                ItemsSource="{Binding Treatments, Mode=TwoWay}" 
+                SelectedItems="{Binding SelectedTreatments, Mode=TwoWay}" x:Name="MC" ToolTip="{Binding Path=Text, 
+                RelativeSource={RelativeSource Self}}" RenderTransformOrigin="0.28,0.64" Margin="0,14"/>-->
+
+            <Button Name="btnAdd" Grid.Row="4" Grid.Column="3" Command="{Binding AddCommand}" HorizontalAlignment="Center" Width="100" Margin="0,10,0,10" Background="LightGreen" FontWeight="Bold">
+                <Label>
+                    _Add Product
+                </Label>
+            </Button>
+            <Button Grid.Row="4" Grid.Column="4"  Command="{Binding SubmitCommand}" HorizontalAlignment="Center" Width="100" Margin="0,10,0,10" Background="LightGreen" FontWeight="Bold" >
+                <Label>
+                    Sa_ve Product
+                </Label>
+            </Button>
+            <Button Grid.Row="4" Grid.Column="5"   Command="{Binding DelCommand}" HorizontalAlignment="Center" Width="100" Margin="0,10,0,10" Background="LightGreen" FontWeight="Bold">
+                <Label>_Delete Product</Label>
+            </Button>
+            <Button Grid.Row="4" Grid.Column="6" Command="{Binding ResetCommand}" HorizontalAlignment="Center" Width="100" Margin="0,10,0,10" Background="LightGreen" FontWeight="Bold" >
+                <Label>
+                    _Reset
+                </Label>
+            </Button>
+
+            <ListView   ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible" 
+                        Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="10" 
+                        Name="lstview" ItemsSource="{Binding ProductsDataView}" 
+                        SelectedItem="{Binding SelectedProduct, Mode=TwoWay}" Margin="2,0,0,0" Grid.RowSpan="2"
+                        >
+                <ListView.Resources>
+                    <Style TargetType="{x:Type ListViewItem}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsActive}"
+                      Value="False">
+                                <Setter Property="Background"
+                  Value="#ffb3d1" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ListView.Resources>
+                <ListView.View >
+                    <GridView ScrollViewer.CanContentScroll="True">
+                        <GridViewColumn Header="IsDirty" DisplayMemberBinding="{Binding IsDirty,Mode=TwoWay}" Width="0"/>
+                        <GridViewColumn Header="Barcode" DisplayMemberBinding="{Binding BarCodeId,Mode=TwoWay}" Width="70"/>
+                        <GridViewColumn  DisplayMemberBinding="{Binding ProductId,Mode=TwoWay}" Width="70">
+                            <GridViewColumnHeader Content="ProductId" 
+                              Command="{Binding SortCommand}" 
+                              CommandParameter="ProductId" />
+                        </GridViewColumn>
+
+                        <!--<GridViewColumn Header="Name" DisplayMemberBinding="{Binding ProductName,Mode=TwoWay}" Width="200"/>-->
+                        <GridViewColumn  DisplayMemberBinding="{Binding ProductName,Mode=TwoWay}" Width="200">
+                            <GridViewColumnHeader Content="Name" 
+                              Command="{Binding SortCommand}" 
+                              CommandParameter="ProductName" />
+                        </GridViewColumn>
+                        <GridViewColumn  DisplayMemberBinding="{Binding MRP,Mode=TwoWay}" Width="70">
+                            <GridViewColumnHeader Content="MRP" 
+                              Command="{Binding SortCommand}" 
+                              CommandParameter="MRP" />
+                        </GridViewColumn>
+                        <GridViewColumn  DisplayMemberBinding="{Binding ProductPrice,Mode=TwoWay}" Width="70">
+                            <GridViewColumnHeader Content="SP" 
+                              Command="{Binding SortCommand}" 
+                              CommandParameter="ProductPrice" />
+                        </GridViewColumn>
+                        <!--<GridViewColumn Header="CP" DisplayMemberBinding="{Binding ProductCostPrice,Mode=TwoWay}" Width="70"/>-->
+                        <GridViewColumn  DisplayMemberBinding="{Binding ProductCostPrice,Mode=TwoWay}" Width="70">
+                            <GridViewColumnHeader Content="CP" 
+                              Command="{Binding SortCommand}" 
+                              CommandParameter="ProductCostPrice" />
+                        </GridViewColumn>
+                        
+                        <!--<GridViewColumn Header="VAT" DisplayMemberBinding="{Binding ProductVatCategory,Mode=TwoWay}" Width="70"/>-->
+                        <GridViewColumn  DisplayMemberBinding="{Binding ProductVatCategory,Mode=TwoWay}" Width="70">
+                            <GridViewColumnHeader Content="VAT" 
+                              Command="{Binding SortCommand}" 
+                              CommandParameter="ProductVatCategory" />
+                        </GridViewColumn>
+                        
+                        
+                        <!--<GridViewColumn Header="VAT Rate" DisplayMemberBinding="{Binding VatRate,Mode=TwoWay}" Width="70"/>-->
+                        <GridViewColumn  DisplayMemberBinding="{Binding VatRate,Mode=TwoWay}" Width="70">
+                            <GridViewColumnHeader Content="GST Rate" 
+                              Command="{Binding SortCommand}" 
+                              CommandParameter="VatRate" />
+                        </GridViewColumn>
+                        
+                        <!--<GridViewColumn Header="CPWithVAT" DisplayMemberBinding="{Binding CPWithVAT,Mode=TwoWay}" Width="70"/>-->
+                        <GridViewColumn  DisplayMemberBinding="{Binding CPWithVAT,Mode=TwoWay}" Width="70">
+                            <GridViewColumnHeader Content="CPWithGST" 
+                              Command="{Binding SortCommand}" 
+                              CommandParameter="CPWithVAT" />
+                        </GridViewColumn>
+                        
+                        <!--<GridViewColumn Header="Profit" DisplayMemberBinding="{Binding Profit,Mode=TwoWay}" Width="70"/>-->
+                        <GridViewColumn  DisplayMemberBinding="{Binding Profit,Mode=TwoWay}" Width="70">
+                            <GridViewColumnHeader Content="Profit" 
+                              Command="{Binding SortCommand}" 
+                              CommandParameter="Profit" />
+                        </GridViewColumn>
+                        <!--<GridViewColumn Header="Active" DisplayMemberBinding="{Binding IsActive,Mode=TwoWay}" Width="70"/>-->
+                        <GridViewColumn  DisplayMemberBinding="{Binding IsActive,Mode=TwoWay}" Width="70">
+                            <GridViewColumnHeader Content="Active" 
+                              Command="{Binding SortCommand}" 
+                              CommandParameter="IsActive" />
+                        </GridViewColumn>
+
+                        <GridViewColumn  DisplayMemberBinding="{Binding TotalAvailQty,Mode=TwoWay}" Width="70">
+                            <GridViewColumnHeader Content="Avail.Qty" 
+                              Command="{Binding SortCommand}" 
+                              CommandParameter="TotalAvailQty" />
+                        </GridViewColumn>
+                        <!--<GridViewColumn Header="LastInward" DisplayMemberBinding="{Binding LastInwardDate,Mode=TwoWay, StringFormat='dd-MMM-yy HH:mm' }" Width="70"/>-->
+                        <GridViewColumn  DisplayMemberBinding="{Binding LastInwardDate,Mode=TwoWay, StringFormat='dd-MMM-yy HH:mm' }" Width="70">
+                            <GridViewColumnHeader Content="LastInward" 
+                              Command="{Binding SortCommand}" 
+                              CommandParameter="LastInwardDate" />
+                        </GridViewColumn>
+
+                        <GridViewColumn  DisplayMemberBinding="{Binding SupplierName,Mode=TwoWay}" Width="70">
+                            <GridViewColumnHeader Content="SupplierName" 
+                              Command="{Binding SortCommand}" 
+                              CommandParameter="SupplierName" />
+                        </GridViewColumn>
+                        <!--<GridViewColumn Header="Offer" DisplayMemberBinding="{Binding OfferOptionStr,Mode=TwoWay}" Width="70"/>-->
+                        <GridViewColumn  DisplayMemberBinding="{Binding OfferOptionStr,Mode=TwoWay}" Width="70">
+                            <GridViewColumnHeader Content="Offer" 
+                              Command="{Binding SortCommand}" 
+                              CommandParameter="OfferOptionStr" />
+                        </GridViewColumn>
+
+
+                        <!--<GridViewColumn Header="Product" Width="250">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding ProductName,Mode=TwoWay}" TextAlignment="Left" VerticalAlignment="Center"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>-->
+                        <!--<GridViewColumn Header="Quantity" Width="60">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Quantity,Mode=TwoWay}" TextAlignment="Right" />
+                                </DataTemplate>
+
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>-->
+
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <Label  Grid.Row="8" Grid.Column="0" Content="Product Name" HorizontalAlignment="left" 
+                FontWeight="Bold" Margin="0,0,0,0"/>
+            <TextBox Grid.Row="8" Grid.Column="1" Width="120" HorizontalAlignment="left" Text="{Binding ProductSearchCriteria, Mode=TwoWay}" Margin="0,0,0,0" />
+
+            <Label Grid.Column="2" Grid.Row="8" Content="Supplier" HorizontalAlignment="left" 
+                FontWeight="Bold" Margin="0,0,0,0"/>
+            <ComboBox  Grid.Row="8" Grid.Column="3"  
+                  ItemsSource="{Binding SuppliersFilterList}" 
+                  DisplayMemberPath="SupplierName" 
+                  SelectedValuePath="SupplierId" 
+                  SelectedItem="{Binding SelectedSupplierFilterList}"
+                  HorizontalAlignment="Left" Margin="0,0,0,0"  VerticalAlignment="Top" Width="200" Grid.ColumnSpan="2"/>
+
+            <Button Grid.Row="8" Grid.Column="5"  Command="{Binding SearchProductCommand}"  HorizontalAlignment="Left" Grid.ColumnSpan="2" Width="100" Margin="0,0,0,0" Background="LightGreen" FontWeight="Bold">
+                <Label>
+                    Search
+                </Label>
+            </Button>
+
+        </Grid>
+
+    </Grid>
+</Window>

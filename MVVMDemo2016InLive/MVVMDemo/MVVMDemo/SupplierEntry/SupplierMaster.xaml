@@ -1,0 +1,88 @@
+﻿<Window x:Class="OPSMain.SupplierEntry.SupplierMaster"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:OPSMain.SupplierEntry"
+        mc:Ignorable="d"
+        Title="SupplierMaster" Height="700" Width="981" Closing="Window_Closing"
+        xmlns:viewmodel="clr-namespace:OPSMain.SupplierEntry"
+        WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <viewmodel:SupplierViewModel x:Key="ViewModel"/>
+
+        <Style TargetType="ListViewItem">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid  DataContext="{Binding Source={StaticResource ViewModel}}" Margin="0,0,0,0" ShowGridLines="False">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="400"/>
+                <RowDefinition Height="100"/>
+
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <!--Name-->
+            <Label Grid.Row="0" Grid.Column="0" Content="Name" HorizontalAlignment="left" 
+                FontWeight="Bold" Margin="0,0,0,0" Grid.ColumnSpan="1"/>
+            <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Width="250" 
+                     HorizontalAlignment="left" Text="{Binding SelectedSupplier.SupplierName, Mode=TwoWay}" Margin="0,0,0,0" />
+            <!--IsActive-->
+            <Label Grid.Row="0" Grid.Column="4" Content="Active" HorizontalAlignment="left" FontWeight="Bold"/>
+            <ComboBox Grid.Row="0" Grid.Column="5"  
+                  ItemsSource="{Binding ActiveTypes}" 
+                  DisplayMemberPath="ActiveCategory" 
+                  SelectedValuePath="ActiveId" 
+                  SelectedItem="{Binding SelectedActiveType,Mode=TwoWay}"
+                  HorizontalAlignment="Left" Margin="0,0,0,0"  VerticalAlignment="Top" Width="100" Grid.ColumnSpan="3"/>    
+            <Button Name="btnAdd" Grid.Row="2" Grid.Column="0" Command="{Binding AddCommand}" HorizontalAlignment="Center" Width="100" Margin="0,10,0,10" Background="LightGreen" FontWeight="Bold">
+                <Label>
+                    _Add Supplier
+                </Label>
+            </Button>
+            <Button Grid.Row="2" Grid.Column="1"  Command="{Binding SubmitCommand}" HorizontalAlignment="Center" Width="100" Margin="0,10,0,10" Background="LightGreen" FontWeight="Bold" >
+                <Label>
+                    Sa_ve Supplier
+                </Label>
+            </Button>
+
+            <Button Grid.Row="2" Grid.Column="2" Command="{Binding ResetCommand}" HorizontalAlignment="Center" Width="100" Margin="1,10,5,10" Background="LightGreen" FontWeight="Bold" >
+                <Label>
+                    _Reset
+                </Label>
+            </Button>
+            
+
+
+            <ListView   ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible" 
+                        Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="8" 
+                        Name="lstview" ItemsSource="{Binding Suppliers}" 
+                        SelectedItem="{Binding SelectedSupplier, Mode=TwoWay}" Margin="2,0,0,0" Grid.RowSpan="2">
+                
+                <ListView.View >
+                    <GridView ScrollViewer.CanContentScroll="True">
+                        <GridViewColumn Header="Supplier ID" DisplayMemberBinding="{Binding SupplierId,Mode=TwoWay}" Width="70"/>
+                        <GridViewColumn Header="Name" DisplayMemberBinding="{Binding SupplierName,Mode=TwoWay}" Width="150"/>
+                        <GridViewColumn Header="IsActive" DisplayMemberBinding="{Binding IsActive,Mode=TwoWay}" Width="70"/>
+                        <GridViewColumn Header="CreatedOn" DisplayMemberBinding="{Binding CreatedOn ,Mode=TwoWay, StringFormat='dd-MMM-yy HH:mm' }" Width="70"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
+    </Grid>
+</Window>

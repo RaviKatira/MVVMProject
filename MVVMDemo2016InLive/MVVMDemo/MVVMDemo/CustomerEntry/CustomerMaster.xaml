@@ -1,0 +1,140 @@
+﻿<Window x:Class="OPSMain.CustomerEntry.CustomerMaster"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:OPSMain.CustomerEntry"
+        mc:Ignorable="d"
+        xmlns:viewmodel="clr-namespace:OPSMain.CustomerEntry"
+        Title="Customer Master" Height="700" Width="981" Closing="Window_Closing"
+        WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <viewmodel:CustomerViewModel x:Key="ViewModel"/>
+
+        <Style TargetType="ListViewItem">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid  DataContext="{Binding Source={StaticResource ViewModel}}" Margin="0,0,0,0" ShowGridLines="False">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="400"/>
+                <RowDefinition Height="100"/>
+                
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <!--Name-->
+            <Label Grid.Row="0" Grid.Column="0" Content="Name" HorizontalAlignment="left" 
+                FontWeight="Bold" Margin="0,0,0,0" Grid.ColumnSpan="1"/>
+            <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Width="250" 
+                     HorizontalAlignment="left" Text="{Binding SelectedCustomer.Name, Mode=TwoWay}" Margin="0,0,0,0" />
+            <!--BarCode-->
+            <Label Grid.Row="0" Grid.Column="4" Content="Bar Code" HorizontalAlignment="left" 
+                FontWeight="Bold" Margin="0,0,0,0" Grid.ColumnSpan="1"/>
+            <TextBox Grid.Row="0" Grid.Column="5" Width="150"  Grid.ColumnSpan="2"
+                     HorizontalAlignment="left" Text="{Binding SelectedCustomer.Customer_barcode, Mode=TwoWay}" Margin="0,0,0,0" />
+
+            <!--Address-->
+            <Label Grid.Row="1" Grid.Column="0"  Content="Address" HorizontalAlignment="left" 
+                FontWeight="Bold" Margin="0,0,0,0" Grid.ColumnSpan="1"/>
+            <TextBox Grid.Row="1" Grid.Column="1" Width="300"  Grid.ColumnSpan="3"
+                     HorizontalAlignment="left" Text="{Binding SelectedCustomer.Address, Mode=TwoWay}" Margin="0,0,0,0" />
+             <!--Phone--> 
+            <Label Grid.Row="1" Grid.Column="4" Content="Phone" HorizontalAlignment="left" 
+                FontWeight="Bold" Margin="0,0,0,0" Grid.ColumnSpan="1"/>
+            <TextBox Grid.Row="1" Grid.Column="5" Width="150" Grid.ColumnSpan="2"
+                     HorizontalAlignment="left" Text="{Binding SelectedCustomer.Phone, Mode=TwoWay}" Margin="0,0,0,0" />
+            <Button Name="btnAdd" Grid.Row="2" Grid.Column="0" Command="{Binding AddCommand}" HorizontalAlignment="Center" Width="100" Margin="0,10,0,10" Background="LightGreen" FontWeight="Bold">
+                <Label>
+                    _Add Customer
+                </Label>
+            </Button>
+            <Button Grid.Row="2" Grid.Column="1"  Command="{Binding SubmitCommand}" HorizontalAlignment="Center" Width="100" Margin="0,10,0,10" Background="LightGreen" FontWeight="Bold" >
+                <Label>
+                    Sa_ve Customer
+                </Label>
+            </Button>
+            
+            <Button Grid.Row="2" Grid.Column="2" Command="{Binding ResetCommand}" HorizontalAlignment="Center" Width="100" Margin="1,10,5,10" Background="LightGreen" FontWeight="Bold" >
+                <Label>
+                    _Reset
+                </Label>
+            </Button>
+            <!--Search Name-->
+            <TextBox Grid.Row="2" Grid.Column="5"  Grid.ColumnSpan="2" Width="150" HorizontalAlignment="left" Text="{Binding CustomerSearchCriteria, Mode=TwoWay}" Background="Azure" Margin="5,0,0,0"  Height="30"/>
+            <Button Grid.Row="2" Grid.Column="6" Grid.ColumnSpan="1" Command="{Binding SearchCommand}" HorizontalAlignment="Center" Width="100" Margin="0,0,0,0" Background="Aqua" FontWeight="Bold" Height="30" >
+                <Label>
+                    _Search Name
+                </Label>
+            </Button>
+
+
+
+            <ListView   ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible" 
+                        Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="8" 
+                        Name="lstview" ItemsSource="{Binding Customers}" 
+                        SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}" Margin="2,0,0,0" Grid.RowSpan="2"
+                        >
+                <ListView.View >
+                    <GridView ScrollViewer.CanContentScroll="True">
+                        
+                        <GridViewColumn Header="Cust ID" DisplayMemberBinding="{Binding CustID,Mode=TwoWay}" Width="70"/>
+                        <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name,Mode=TwoWay}" Width="150"/>
+                        <GridViewColumn Header="Address" DisplayMemberBinding="{Binding Address,Mode=TwoWay}" Width="250"/>
+                        <GridViewColumn Header="Barcode" DisplayMemberBinding="{Binding Customer_barcode,Mode=TwoWay}" Width="70"/>
+                        <GridViewColumn Header="Phone" DisplayMemberBinding="{Binding Phone,Mode=TwoWay}" Width="70"/>
+                        <GridViewColumn Header="Total Points" DisplayMemberBinding="{Binding TotalRewardsPoints,Mode=TwoWay}" Width="70"/>
+                        <GridViewColumn Header="Consumed Points" DisplayMemberBinding="{Binding ConsumedRewardsPoints,Mode=TwoWay}" Width="100"/>
+
+
+                        <GridViewColumn Header="Available Points"  Width="70" >
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding LeftRewardsPoints,Mode=TwoWay}" Foreground="GreenYellow" Background="Black"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                        <GridViewColumn Header="CreatedOn" DisplayMemberBinding="{Binding CreatedOn ,Mode=TwoWay, StringFormat='dd-MMM-yy HH:mm' }" Width="70"/>
+                        <!--<GridViewColumn Header="Name" DisplayMemberBinding="{Binding ProductName,Mode=TwoWay}" Width="200"/>-->
+                        <!--<GridViewColumn  DisplayMemberBinding="{Binding ProductName,Mode=TwoWay}" Width="200">
+                            <GridViewColumnHeader Content="Name" 
+                              Command="{Binding SortCommand}" 
+                              CommandParameter="productName" />
+                        </GridViewColumn>
+                        <GridViewColumn Header="SP" DisplayMemberBinding="{Binding ProductPrice,Mode=TwoWay}" Width="70"/>
+                        <GridViewColumn Header="CP" DisplayMemberBinding="{Binding ProductCostPrice,Mode=TwoWay}" Width="70"/>
+                        <GridViewColumn Header="VAT" DisplayMemberBinding="{Binding ProductVatCategory,Mode=TwoWay}" Width="70"/>
+                        <GridViewColumn Header="VAT Rate" DisplayMemberBinding="{Binding VatRate,Mode=TwoWay}" Width="70"/>
+                        <GridViewColumn Header="CPWithVAT" DisplayMemberBinding="{Binding CPWithVAT,Mode=TwoWay}" Width="70"/>
+                        <GridViewColumn Header="Profit" DisplayMemberBinding="{Binding Profit,Mode=TwoWay}" Width="70"/>
+                        <GridViewColumn Header="Active" DisplayMemberBinding="{Binding IsActive,Mode=TwoWay}" Width="70"/>
+                        <GridViewColumn Header="Avail.Qty" DisplayMemberBinding="{Binding TotalAvailQty,Mode=TwoWay}" Width="70"/>
+                        <GridViewColumn Header="LastInward" DisplayMemberBinding="{Binding LastInwardDate,Mode=TwoWay, StringFormat='dd-MMM-yy HH:mm' }" Width="70"/>
+                        <GridViewColumn Header="SupplierName" DisplayMemberBinding="{Binding SupplierName,Mode=TwoWay}" Width="70"/>-->
+
+                                           
+
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            
+            
+
+        </Grid>
+    </Grid>
+</Window>
